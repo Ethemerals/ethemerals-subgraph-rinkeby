@@ -48,7 +48,7 @@ import { transactionId } from './helpers';
 
 export function ensurePet(event: ethereum.Event, tokenId: BigInt): Pet {
 	let id = tokenId.toString();
-	let pet = Pet.load(id) as Pet;
+	let pet = Pet.load(id);
 	if (pet) {
 		return pet;
 	}
@@ -77,7 +77,7 @@ export function ensurePet(event: ethereum.Event, tokenId: BigInt): Pet {
 }
 
 export function ensurePetMetadata(type: BigInt): PetMetadata {
-	let meta = PetMetadata.load(type.toString()) as PetMetadata;
+	let meta = PetMetadata.load(type.toString());
 	if (meta) {
 		return meta;
 	}
@@ -95,7 +95,7 @@ export function ensurePetMetadata(type: BigInt): PetMetadata {
 
 export function ensurePetAction(event: ethereum.Event, tokenId: string): PetAction {
 	let id = transactionId(event.transaction) + '/' + tokenId;
-	let action = PetAction.load(id) as PetAction;
+	let action = PetAction.load(id);
 	if (action) {
 		return action;
 	}
@@ -113,7 +113,7 @@ export function ensurePetAction(event: ethereum.Event, tokenId: string): PetActi
 export function ensureItem(event: ethereum.Event, tokenId: BigInt): Item {
 	let id = tokenId.toString();
 
-	let item = Item.load(id) as Item;
+	let item = Item.load(id);
 	if (item) {
 		return item;
 	}
@@ -144,7 +144,7 @@ export function ensureItem(event: ethereum.Event, tokenId: BigInt): Item {
 }
 
 export function ensureItemMetadata(type: BigInt): ItemMetadata {
-	let meta = ItemMetadata.load(type.toString()) as ItemMetadata;
+	let meta = ItemMetadata.load(type.toString());
 	if (meta) {
 		return meta;
 	}
@@ -160,7 +160,7 @@ export function ensureItemMetadata(type: BigInt): ItemMetadata {
 
 export function ensureItemAction(event: ethereum.Event, tokenId: string): ItemAction {
 	let id = transactionId(event.transaction) + '/' + tokenId;
-	let action = ItemAction.load(id) as ItemAction;
+	let action = ItemAction.load(id);
 	if (action) {
 		return action;
 	}

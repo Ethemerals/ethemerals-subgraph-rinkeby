@@ -4,7 +4,7 @@ import { transactionId } from './helpers';
 
 export function ensureTransaction(event: ethereum.Event): Transaction {
 	let id = transactionId(event.transaction);
-	let transaction = Transaction.load(id) as Transaction;
+	let transaction = Transaction.load(id);
 	if (transaction) {
 		return transaction;
 	}

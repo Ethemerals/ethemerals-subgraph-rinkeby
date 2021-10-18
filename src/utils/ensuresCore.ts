@@ -10,7 +10,7 @@ import { ensureTransaction } from './ensuresCommon';
 import { transactionId } from './helpers';
 
 export function ensureCore(event: ethereum.Event): Core {
-	let core = Core.load(CORE_ADDRESS) as Core;
+	let core = Core.load(CORE_ADDRESS);
 	if (core) {
 		return core;
 	}
@@ -29,7 +29,7 @@ export function ensureCore(event: ethereum.Event): Core {
 }
 
 export function ensureAccount(event: ethereum.Event, id: string): Account {
-	let account = Account.load(id) as Account;
+	let account = Account.load(id);
 	if (account) {
 		return account;
 	}
@@ -46,7 +46,7 @@ export function ensureAccount(event: ethereum.Event, id: string): Account {
 
 export function ensureCoreAction(event: ethereum.Event): CoreAction {
 	let id = transactionId(event.transaction);
-	let action = CoreAction.load(id) as CoreAction;
+	let action = CoreAction.load(id);
 	if (action) {
 		return action;
 	}
@@ -62,7 +62,7 @@ export function ensureCoreAction(event: ethereum.Event): CoreAction {
 
 export function ensureAccountAction(event: ethereum.Event, accountId: string): AccountAction {
 	let id = transactionId(event.transaction) + '/' + accountId;
-	let action = AccountAction.load(id) as AccountAction;
+	let action = AccountAction.load(id);
 	if (action) {
 		return action;
 	}

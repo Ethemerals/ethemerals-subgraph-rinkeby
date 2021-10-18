@@ -14,7 +14,7 @@ import { transactionId } from './helpers';
 
 export function ensureEthemeral(event: ethereum.Event, tokenId: BigInt): Ethemeral {
 	let id = tokenId.toString();
-	let ethemeral = Ethemeral.load(id) as Ethemeral;
+	let ethemeral = Ethemeral.load(id);
 	if (ethemeral) {
 		return ethemeral;
 	}
@@ -45,7 +45,7 @@ export function ensureEthemeral(event: ethereum.Event, tokenId: BigInt): Ethemer
 }
 
 export function ensureScorecard(tokenId: string): Scorecard {
-	let scorecard = Scorecard.load(tokenId) as Scorecard;
+	let scorecard = Scorecard.load(tokenId);
 	if (scorecard) {
 		return scorecard;
 	}
@@ -73,7 +73,7 @@ export function ensureMetadata(rank: BigInt): Metadata {
 	let metadata = meralTraits[rankIndex];
 	let id = metadata[0];
 
-	let meta = Metadata.load(id.toString()) as Metadata;
+	let meta = Metadata.load(id.toString());
 	if (meta) {
 		return meta;
 	}
@@ -99,7 +99,7 @@ export function ensureMetadata(rank: BigInt): Metadata {
 
 export function ensureEthemeralAction(event: ethereum.Event, tokenId: string): EthemeralAction {
 	let id = transactionId(event.transaction) + '/' + tokenId;
-	let action = EthemeralAction.load(id) as EthemeralAction;
+	let action = EthemeralAction.load(id);
 	if (action) {
 		return action;
 	}

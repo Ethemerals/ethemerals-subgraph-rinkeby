@@ -2,7 +2,7 @@ import { BigDecimal, BigInt } from '@graphprotocol/graph-ts';
 import { EthemeralLifeForce as ELF, Approval, Transfer } from '../../generated/EthemeralLifeForce/EthemeralLifeForce';
 import { addressId, transactionId } from '../utils/helpers';
 import { ensureAccount, ensureAccountAction } from '../utils/ensuresCore';
-import { Account } from '../../generated/schema';
+import { Account, Account2, ExampleEntity } from '../../generated/schema';
 import { ZERO_BD, ZERO_BI } from '../utils/constants';
 
 export function handleApproval(event: Approval): void {
@@ -19,11 +19,25 @@ export function handleApproval(event: Approval): void {
 	// - contract.transferFrom(...)
 }
 
+export function handleTransfer1(event: Transfer): void {
+	// let amount = event.params.value;
+	// TO
+	let account = Account.load(event.transaction.from.toHex());
+	if (!account) {
+		account = new Account(event.transaction.from.toHex());
+	}
+
+	account.elfBalance = ZERO_BI;
+	account.timestamp = event.block.timestamp;
+	account.blockNumber = event.block.number;
+	account.allowDelegates = false;
+	account.save();
+}
+
 export function handleTransfer(event: Transfer): void {
 	let amount = event.params.value;
 	// TO
-	let accountTo = ensureAccount(event, addressId(event.params.to));
-	// let accountTo = Account.load(addressId(event.params.to)) as Account;
+	let accountTo = Account.load(event.transaction.from.toHex());
 	if (accountTo) {
 		accountTo.elfBalance = accountTo.elfBalance.plus(amount);
 	} else {
@@ -33,8 +47,7 @@ export function handleTransfer(event: Transfer): void {
 	let accountToAction = ensureAccountAction(event, accountTo.id);
 	accountToAction.type = 'ReceiveELF';
 	// FROM
-	let accountFrom = ensureAccount(event, addressId(event.params.from));
-	// let accountFrom = Account.load(addressId(event.params.from)) as Account;
+	let accountFrom = Account.load(addressId(event.params.from));
 	if (accountFrom) {
 		if (amount >= accountFrom.elfBalance) {
 			accountFrom.elfBalance = ZERO_BI;
