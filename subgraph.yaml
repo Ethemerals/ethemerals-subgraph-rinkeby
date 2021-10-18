@@ -6,23 +6,25 @@ dataSources:
     name: Ethemerals
     network: rinkeby
     source:
-      address: "0xcdb47e685819638668ff736d1a2ae32b68e76ba5"
+      address: '0xcdb47e685819638668ff736d1a2ae32b68e76ba5'
       abi: Ethemerals
+      startBlock: 9415020
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - AllowDelegatesChange
-        - Approval
-        - ApprovalForAll
-        - ChangeRewards
-        - ChangeScore
-        - DelegateChange
-        - Mint
-        - OwnershipTransferred
-        - PriceChange
-        - Transfer
+        - Core
+        - Delegate
+        - Ethemeral
+        - Metadata
+        - Scorecard
+        - Account
+        - CoreAction
+        - DelegateAction
+        - EthemeralAction
+        - AccountAction
+        - Transaction
       abis:
         - name: Ethemerals
           file: ./abis/Ethemerals.json
@@ -47,4 +49,69 @@ dataSources:
           handler: handlePriceChange
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-      file: ./src/mapping.ts
+      file: ./src/mappings/core.ts
+
+  # ELF
+  - kind: ethereum/contract
+    name: EthemeralLifeForce
+    network: rinkeby
+    source:
+      address: '0x22b56e6687e6b4ea8dd58b468ee3913cfa4185e3'
+      abi: EthemeralLifeForce
+      startBlock: 9415020
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - Transfer
+      abis:
+        - name: EthemeralLifeForce
+          file: ./abis/EthemeralLifeForce.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/mappings/ELF.ts
+
+  # EQUIPABLES
+  - kind: ethereum/contract
+    name: EthemeralEquipables
+    network: rinkeby
+    source:
+      address: '0xc2cd83998d5d76f64830fbd1df2e8b221c4f31a2'
+      abi: EthemeralEquipables
+      startBlock: 9415020
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Pet
+        - PetMetadata
+        - Item
+        - ItemMetadata
+        - Account
+        - AccountAction
+        - Delegate
+        - DelegateAction
+        - Transaction
+      abis:
+        - name: EthemeralEquipables
+          file: ./abis/EthemeralEquipables.json
+      eventHandlers:
+        - event: AllowDelegatesChange(indexed address,bool)
+          handler: handleAllowDelegatesChange
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: DelegateChange(indexed address,bool)
+          handler: handleDelegateChange
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mappings/equipables.ts
