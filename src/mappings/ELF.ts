@@ -2,7 +2,7 @@ import { BigDecimal, BigInt } from '@graphprotocol/graph-ts';
 import { EthemeralLifeForce as ELF, Approval, Transfer } from '../../generated/EthemeralLifeForce/EthemeralLifeForce';
 import { addressId, transactionId } from '../utils/helpers';
 import { ensureAccount, ensureAccountAction } from '../utils/ensuresCore';
-import { Account, Account2, ExampleEntity } from '../../generated/schema';
+import { Account } from '../../generated/schema';
 import { ZERO_BD, ZERO_BI } from '../utils/constants';
 
 export function handleApproval(event: Approval): void {

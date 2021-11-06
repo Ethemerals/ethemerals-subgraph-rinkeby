@@ -1,14 +1,13 @@
 import { Address, BigInt, BigDecimal, log, ethereum } from '@graphprotocol/graph-ts';
 import { addressId, transactionId } from '../utils/helpers';
 
-import { ensureAccount, ensureAccountAction, ensureCore, ensureCoreAction } from '../utils/ensuresCore';
+import { ensureDelegate, ensureDelegateAction, ensureAccount, ensureAccountAction, ensureCore, ensureCoreAction } from '../utils/ensuresCore';
 import { ensureEthemeral, ensureEthemeralAction, ensureMetadata, ensureScorecard } from '../utils/ensuresMerals';
 
 import { bonusStats } from '../metadata/meralBonusStats';
 
 import { getMintPrice, getMaxAvailableIndex, getEthemeralSupply } from '../utils/contractCallsCore';
 import { ADDRESS_ZERO, ZERO_BI, ZERO_BD, ONE_BI, TEN_BI, INI_SCORE, CORE_ADDRESS, coreContract } from '../utils/constants';
-
 import { Approval, ApprovalForAll, OwnershipTransferred, DelegateChange, PriceChange, AllowDelegatesChange, Transfer, Mint, ChangeRewards, ChangeScore } from '../../generated/Ethemerals/Ethemerals';
 
 import { Ethemeral, Core, Account, CoreAction, EthemeralAction, AccountAction } from '../../generated/schema';
@@ -35,24 +34,21 @@ export function handleApproval(event: Approval): void {
 export function handleApprovalForAll(event: ApprovalForAll): void {}
 
 export function handleAllowDelegatesChange(event: AllowDelegatesChange): void {
-	// let delegate = ensureDelegate(event, addressId(event.params.delegate));
-	// let action = ensureDelegateAction(event, delegate.id);
-	// action.type = 'DelegateChange';
-	// delegate.active = event.params.add;
-	// action.save();
-	// delegate.save();
+	let account = ensureAccount(event, addressId(event.params.user));
+	let accountActions = ensureAccountAction(event, account.id);
+	accountActions.type = 'DelegateChange';
+	account.allowDelegates = event.params.allow;
+	account.save();
 }
 
-// export function handleDisallowDelegatesChange(event: AllowDelegatesChange): void {
-// 	let account = ensureAccount(event, addressId(event.params.user));
-// 	let action = ensureAccountAction(event, account.id);
-// 	action.type = 'DelegateChange';
-// 	account.allowDelegates = event.params.allow;
-// 	action.save();
-// 	account.save();
-// }
-
-export function handleDelegateChange(event: DelegateChange): void {}
+export function handleDelegateChange(event: DelegateChange): void {
+	let delegate = ensureDelegate(event, addressId(event.params.delegate));
+	let delegateAction = ensureDelegateAction(event, delegate.id);
+	delegateAction.type = 'DelegateChange';
+	delegate.active = event.params.add;
+	delegateAction.save();
+	delegate.save();
+}
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {
 	let core = ensureCore(event);
@@ -189,8 +185,6 @@ export function handleMint(event: Mint): void {
 		token.spdBonus = BigInt.fromI32(statData[2]).minus(BigInt.fromI32(200));
 	}
 	if (metadata.subClass == 'Berserker') {
-		token.atk = BigInt.fromI32(event.params.atk).plus(BigInt.fromI32(100));
-		token.spd = BigInt.fromI32(event.params.spd).plus(BigInt.fromI32(100));
 		token.atkBonus = BigInt.fromI32(statData[0]).minus(BigInt.fromI32(100));
 		token.defBonus = BigInt.fromI32(statData[1]);
 		token.spdBonus = BigInt.fromI32(statData[2]).minus(BigInt.fromI32(100));
@@ -224,10 +218,14 @@ export function handleMint(event: Mint): void {
 
 export function handleChangeRewards(event: ChangeRewards): void {
 	let token = ensureEthemeral(event, event.params.tokenId);
-	// let tokenAction = ensureEthemeralAction(event, token.id);
-	// tokenAction.type = event.params.action;
 	token.rewards = event.params.rewards;
 	token.save();
 }
 
-export function handleChangeScore(event: ChangeScore): void {}
+export function handleChangeScore(event: ChangeScore): void {
+	let token = ensureEthemeral(event, event.params.tokenId);
+	let newRewards = token.rewards.plus(event.params.rewards);
+	token.rewards = newRewards;
+	token.score = BigInt.fromI32(event.params.score);
+	token.save();
+}

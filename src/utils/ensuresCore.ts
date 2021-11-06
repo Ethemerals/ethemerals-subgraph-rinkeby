@@ -4,7 +4,7 @@ import { ADDRESS_ZERO, ZERO_BI, ZERO_BD, ONE_BI, TEN_BI, INI_SCORE, INI_ALLOWDEL
 
 import { getMintPrice, getMaxAvailableIndex, getEthemeralSupply } from './contractCallsCore';
 
-import { CoreAction, AccountAction, Transaction, Account, Core } from '../../generated/schema';
+import { CoreAction, AccountAction, Delegate, DelegateAction, Transaction, Account, Core } from '../../generated/schema';
 
 import { ensureTransaction } from './ensuresCommon';
 import { transactionId } from './helpers';
@@ -26,6 +26,21 @@ export function ensureCore(event: ethereum.Event): Core {
 	core.save();
 
 	return core;
+}
+
+export function ensureDelegate(event: ethereum.Event, id: string): Delegate {
+	let delegate = Delegate.load(id);
+	if (delegate) {
+		return delegate;
+	}
+
+	delegate = new Delegate(id);
+	delegate.timestamp = event.block.timestamp;
+	delegate.blockNumber = event.block.number;
+	delegate.active = true;
+	delegate.save();
+
+	return delegate;
 }
 
 export function ensureAccount(event: ethereum.Event, id: string): Account {
@@ -69,6 +84,23 @@ export function ensureAccountAction(event: ethereum.Event, accountId: string): A
 
 	action = new AccountAction(id);
 	action.account = accountId;
+	action.timestamp = event.block.timestamp;
+	action.transaction = ensureTransaction(event).id;
+	action.type = 'Default';
+	action.save();
+
+	return action;
+}
+
+export function ensureDelegateAction(event: ethereum.Event, delegateId: string): DelegateAction {
+	let id = transactionId(event.transaction);
+	let action = DelegateAction.load(id);
+	if (action) {
+		return action;
+	}
+
+	action = new DelegateAction(id);
+	action.delegate = delegateId;
 	action.timestamp = event.block.timestamp;
 	action.transaction = ensureTransaction(event).id;
 	action.type = 'Default';
