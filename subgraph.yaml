@@ -121,9 +121,9 @@ dataSources:
     name: EternalBattle
     network: rinkeby
     source:
-      address: '0xaeEbd4644354F0921aaBAB105A70140f9628Ba6C'
+      address: '0x883170aAcEB39a23642f5aAaab083F5684D3fFB1'
       abi: EternalBattle
-      startBlock: 9415020
+      startBlock: 9597477
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
