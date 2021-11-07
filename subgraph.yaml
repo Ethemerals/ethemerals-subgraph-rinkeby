@@ -64,8 +64,7 @@ dataSources:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - Approval
-        - Transfer
+        - Account
       abis:
         - name: EthemeralLifeForce
           file: ./abis/EthemeralLifeForce.json
@@ -116,7 +115,7 @@ dataSources:
           handler: handleTransfer
       file: ./src/mappings/equipables.ts
 
-  # ELF
+  # ETERNAL BATTLE
   - kind: ethereum/contract
     name: EternalBattle
     network: rinkeby

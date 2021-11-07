@@ -19,21 +19,6 @@ export function handleApproval(event: Approval): void {
 	// - contract.transferFrom(...)
 }
 
-export function handleTransfer1(event: Transfer): void {
-	// let amount = event.params.value;
-	// TO
-	let account = Account.load(event.transaction.from.toHex());
-	if (!account) {
-		account = new Account(event.transaction.from.toHex());
-	}
-
-	account.elfBalance = ZERO_BI;
-	account.timestamp = event.block.timestamp;
-	account.blockNumber = event.block.number;
-	account.allowDelegates = false;
-	account.save();
-}
-
 export function handleTransfer(event: Transfer): void {
 	let amount = event.params.value;
 	// TO
