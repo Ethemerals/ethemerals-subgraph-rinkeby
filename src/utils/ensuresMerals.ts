@@ -44,7 +44,7 @@ export function ensureEthemeral(event: ethereum.Event, tokenId: BigInt): Ethemer
 	ethemeral.hair = metaColors[metadata[4]];
 	ethemeral.eyes = metaColors[metadata[5]];
 	ethemeral.skin = metaColors[metadata[6]];
-	ethemeral.costume = metaColors[metadata[7]];
+	ethemeral.costume = metaCostumes[metadata[7]];
 
 	ethemeral.petRedeemed = false;
 	ethemeral.scorecard = ensureScorecard(ethemeral.id).id;

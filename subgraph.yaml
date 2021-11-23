@@ -152,3 +152,36 @@ dataSources:
         - event: TokenRevived(indexed uint256,uint256)
           handler: handleTokenRevived
       file: ./src/mappings/eternalBattle.ts
+
+  # ART
+  - kind: ethereum/contract
+    name: EthemeralArt
+    network: rinkeby
+    source:
+      address: '0xAcdE8B2F41dce596C4E95DF65b9479382Ce345e8'
+      abi: EthemeralArt
+      startBlock: 9691629
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Art
+        - Account
+      abis:
+        - name: EthemeralArt
+          file: ./abis/EthemeralArt.json
+      eventHandlers:
+        - event: AllowDelegatesChange(indexed address,bool)
+          handler: handleAllowDelegatesChange
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: DelegateChange(indexed address,bool)
+          handler: handleDelegateChange
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mappings/art.ts

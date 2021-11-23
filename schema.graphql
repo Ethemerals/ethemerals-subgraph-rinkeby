@@ -209,6 +209,23 @@ type ItemAction @entity {
 }
 
 ##############################
+##         ART              ##
+##############################
+
+type Art @entity {
+	id: ID!
+	timestamp: BigInt!
+	blockNumber: BigInt!
+	creator: Account!
+	owner: Account!
+	baseId: BigInt!
+	winner: Account
+	edition: BigInt
+	title: String
+	artist: String
+}
+
+##############################
 ##         Enums            ##
 ##############################
 
