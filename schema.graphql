@@ -222,6 +222,7 @@ type Art @entity {
 	winner: Account
 	edition: BigInt
 	title: String
+	desc: String
 	artist: String
 }
 

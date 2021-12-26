@@ -2198,6 +2198,23 @@ export class Art extends Entity {
     }
   }
 
+  get desc(): string | null {
+    let value = this.get("desc");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set desc(value: string | null) {
+    if (!value) {
+      this.unset("desc");
+    } else {
+      this.set("desc", Value.fromString(<string>value));
+    }
+  }
+
   get artist(): string | null {
     let value = this.get("artist");
     if (!value || value.kind == ValueKind.NULL) {
