@@ -230,6 +230,7 @@ export class Ethemeral extends Entity {
     this.set("costume", Value.fromString(""));
     this.set("petRedeemed", Value.fromBoolean(false));
     this.set("scorecard", Value.fromString(""));
+    this.set("wildsScoreCard", Value.fromString(""));
     this.set("metadata", Value.fromString(""));
   }
 
@@ -490,6 +491,32 @@ export class Ethemeral extends Entity {
 
   set scorecard(value: string) {
     this.set("scorecard", Value.fromString(value));
+  }
+
+  get wildsScoreCard(): string {
+    let value = this.get("wildsScoreCard");
+    return value!.toString();
+  }
+
+  set wildsScoreCard(value: string) {
+    this.set("wildsScoreCard", Value.fromString(value));
+  }
+
+  get LCP(): Array<string> | null {
+    let value = this.get("LCP");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set LCP(value: Array<string> | null) {
+    if (!value) {
+      this.unset("LCP");
+    } else {
+      this.set("LCP", Value.fromStringArray(<Array<string>>value));
+    }
   }
 
   get metadata(): string {
@@ -2230,6 +2257,503 @@ export class Art extends Entity {
     } else {
       this.set("artist", Value.fromString(<string>value));
     }
+  }
+}
+
+export class WildLand extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("timestamp", Value.fromBigInt(BigInt.zero()));
+    this.set("raidStatus", Value.fromBigInt(BigInt.zero()));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save WildLand entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save WildLand entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("WildLand", id.toString(), this);
+    }
+  }
+
+  static load(id: string): WildLand | null {
+    return changetype<WildLand | null>(store.get("WildLand", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get raidStatus(): BigInt {
+    let value = this.get("raidStatus");
+    return value!.toBigInt();
+  }
+
+  set raidStatus(value: BigInt) {
+    this.set("raidStatus", Value.fromBigInt(value));
+  }
+
+  get remainingELFx(): BigInt | null {
+    let value = this.get("remainingELFx");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set remainingELFx(value: BigInt | null) {
+    if (!value) {
+      this.unset("remainingELFx");
+    } else {
+      this.set("remainingELFx", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get emissionRate(): BigInt | null {
+    let value = this.get("emissionRate");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set emissionRate(value: BigInt | null) {
+    if (!value) {
+      this.unset("emissionRate");
+    } else {
+      this.set("emissionRate", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get lastEvent(): BigInt | null {
+    let value = this.get("lastEvent");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set lastEvent(value: BigInt | null) {
+    if (!value) {
+      this.unset("lastEvent");
+    } else {
+      this.set("lastEvent", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get lastRaid(): BigInt | null {
+    let value = this.get("lastRaid");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set lastRaid(value: BigInt | null) {
+    if (!value) {
+      this.unset("lastRaid");
+    } else {
+      this.set("lastRaid", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get baseDefence(): BigInt | null {
+    let value = this.get("baseDefence");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set baseDefence(value: BigInt | null) {
+    if (!value) {
+      this.unset("baseDefence");
+    } else {
+      this.set("baseDefence", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get wildStakes(): Array<string> | null {
+    let value = this.get("wildStakes");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set wildStakes(value: Array<string> | null) {
+    if (!value) {
+      this.unset("wildStakes");
+    } else {
+      this.set("wildStakes", Value.fromStringArray(<Array<string>>value));
+    }
+  }
+
+  get lcp(): Array<string> | null {
+    let value = this.get("lcp");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set lcp(value: Array<string> | null) {
+    if (!value) {
+      this.unset("lcp");
+    } else {
+      this.set("lcp", Value.fromStringArray(<Array<string>>value));
+    }
+  }
+}
+
+export class WildStake extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("active", Value.fromBoolean(false));
+    this.set("ethemeral", Value.fromString(""));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save WildStake entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save WildStake entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("WildStake", id.toString(), this);
+    }
+  }
+
+  static load(id: string): WildStake | null {
+    return changetype<WildStake | null>(store.get("WildStake", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get active(): boolean {
+    let value = this.get("active");
+    return value!.toBoolean();
+  }
+
+  set active(value: boolean) {
+    this.set("active", Value.fromBoolean(value));
+  }
+
+  get ethemeral(): string {
+    let value = this.get("ethemeral");
+    return value!.toString();
+  }
+
+  set ethemeral(value: string) {
+    this.set("ethemeral", Value.fromString(value));
+  }
+
+  get land(): string | null {
+    let value = this.get("land");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set land(value: string | null) {
+    if (!value) {
+      this.unset("land");
+    } else {
+      this.set("land", Value.fromString(<string>value));
+    }
+  }
+
+  get stakeType(): BigInt | null {
+    let value = this.get("stakeType");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set stakeType(value: BigInt | null) {
+    if (!value) {
+      this.unset("stakeType");
+    } else {
+      this.set("stakeType", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get startedAt(): BigInt | null {
+    let value = this.get("startedAt");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set startedAt(value: BigInt | null) {
+    if (!value) {
+      this.unset("startedAt");
+    } else {
+      this.set("startedAt", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get lastActionAt(): BigInt | null {
+    let value = this.get("lastActionAt");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set lastActionAt(value: BigInt | null) {
+    if (!value) {
+      this.unset("lastActionAt");
+    } else {
+      this.set("lastActionAt", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get damage(): BigInt | null {
+    let value = this.get("damage");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set damage(value: BigInt | null) {
+    if (!value) {
+      this.unset("damage");
+    } else {
+      this.set("damage", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get health(): BigInt | null {
+    let value = this.get("health");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set health(value: BigInt | null) {
+    if (!value) {
+      this.unset("health");
+    } else {
+      this.set("health", Value.fromBigInt(<BigInt>value));
+    }
+  }
+}
+
+export class WildLCP extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("land", Value.fromString(""));
+    this.set("ethemeral", Value.fromString(""));
+    this.set("points", Value.fromBigInt(BigInt.zero()));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save WildLCP entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save WildLCP entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("WildLCP", id.toString(), this);
+    }
+  }
+
+  static load(id: string): WildLCP | null {
+    return changetype<WildLCP | null>(store.get("WildLCP", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get land(): string {
+    let value = this.get("land");
+    return value!.toString();
+  }
+
+  set land(value: string) {
+    this.set("land", Value.fromString(value));
+  }
+
+  get ethemeral(): string {
+    let value = this.get("ethemeral");
+    return value!.toString();
+  }
+
+  set ethemeral(value: string) {
+    this.set("ethemeral", Value.fromString(value));
+  }
+
+  get points(): BigInt {
+    let value = this.get("points");
+    return value!.toBigInt();
+  }
+
+  set points(value: BigInt) {
+    this.set("points", Value.fromBigInt(value));
+  }
+}
+
+export class WildsScoreCard extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("ethemeral", Value.fromString(""));
+    this.set("defend", Value.fromBigInt(BigInt.zero()));
+    this.set("loot", Value.fromBigInt(BigInt.zero()));
+    this.set("birth", Value.fromBigInt(BigInt.zero()));
+    this.set("attack", Value.fromBigInt(BigInt.zero()));
+    this.set("revived", Value.fromBigInt(BigInt.zero()));
+    this.set("reviver", Value.fromBigInt(BigInt.zero()));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save WildsScoreCard entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save WildsScoreCard entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("WildsScoreCard", id.toString(), this);
+    }
+  }
+
+  static load(id: string): WildsScoreCard | null {
+    return changetype<WildsScoreCard | null>(store.get("WildsScoreCard", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get ethemeral(): string {
+    let value = this.get("ethemeral");
+    return value!.toString();
+  }
+
+  set ethemeral(value: string) {
+    this.set("ethemeral", Value.fromString(value));
+  }
+
+  get defend(): BigInt {
+    let value = this.get("defend");
+    return value!.toBigInt();
+  }
+
+  set defend(value: BigInt) {
+    this.set("defend", Value.fromBigInt(value));
+  }
+
+  get loot(): BigInt {
+    let value = this.get("loot");
+    return value!.toBigInt();
+  }
+
+  set loot(value: BigInt) {
+    this.set("loot", Value.fromBigInt(value));
+  }
+
+  get birth(): BigInt {
+    let value = this.get("birth");
+    return value!.toBigInt();
+  }
+
+  set birth(value: BigInt) {
+    this.set("birth", Value.fromBigInt(value));
+  }
+
+  get attack(): BigInt {
+    let value = this.get("attack");
+    return value!.toBigInt();
+  }
+
+  set attack(value: BigInt) {
+    this.set("attack", Value.fromBigInt(value));
+  }
+
+  get revived(): BigInt {
+    let value = this.get("revived");
+    return value!.toBigInt();
+  }
+
+  set revived(value: BigInt) {
+    this.set("revived", Value.fromBigInt(value));
+  }
+
+  get reviver(): BigInt {
+    let value = this.get("reviver");
+    return value!.toBigInt();
+  }
+
+  set reviver(value: BigInt) {
+    this.set("reviver", Value.fromBigInt(value));
   }
 }
 

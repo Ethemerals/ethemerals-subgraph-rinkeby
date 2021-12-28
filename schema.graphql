@@ -47,6 +47,8 @@ type Ethemeral @entity {
 	costume: String!
 	petRedeemed: Boolean!
 	scorecard: Scorecard!
+	wildsScoreCard: WildsScoreCard!
+	LCP: [WildLCP!] @derivedFrom(field: "ethemeral")
 	metadata: Metadata!
 	actions: [EthemeralAction!] @derivedFrom(field: "ethemeral")
 }
@@ -224,6 +226,53 @@ type Art @entity {
 	title: String
 	desc: String
 	artist: String
+}
+
+##############################
+##         Wilds              ##
+##############################
+
+type WildLand @entity {
+	id: ID!
+	timestamp: BigInt!
+	raidStatus: BigInt!
+	remainingELFx: BigInt
+	emissionRate: BigInt
+	lastEvent: BigInt
+	lastRaid: BigInt
+	baseDefence: BigInt
+	wildStakes: [WildStake!] @derivedFrom(field: "land")
+	lcp: [WildLCP!] @derivedFrom(field: "land")
+}
+
+type WildStake @entity {
+	id: ID!
+	active: Boolean!
+	ethemeral: Ethemeral!
+	land: WildLand
+	stakeType: BigInt
+	startedAt: BigInt
+	lastActionAt: BigInt
+	damage: BigInt
+	health: BigInt
+}
+
+type WildLCP @entity {
+	id: ID!
+	land: WildLand!
+	ethemeral: Ethemeral!
+	points: BigInt!
+}
+
+type WildsScoreCard @entity {
+	id: ID!
+	ethemeral: Ethemeral!
+	defend: BigInt!
+	loot: BigInt!
+	birth: BigInt!
+	attack: BigInt!
+	revived: BigInt!
+	reviver: BigInt!
 }
 
 ##############################

@@ -185,3 +185,46 @@ dataSources:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/mappings/art.ts
+
+    # WILDS
+  - kind: ethereum/contract
+    name: Wilds
+    network: rinkeby
+    source:
+      address: '0xCfaD3968888E8663E42622d4aFc897a9a6eA4fa5'
+      abi: Wilds
+      startBlock: 9886894
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - DeathKissed
+        - LCPChange
+        - LandChange
+        - RaidAction
+        - RaidStatusChange
+        - Staked
+        - Swapped
+        - Unstaked
+      abis:
+        - name: Wilds
+          file: ./abis/Wilds.json
+      eventHandlers:
+        - event: DeathKissed(uint16,uint16)
+          handler: handleDeathKissed
+        - event: LCPChange(uint16,uint16,uint256)
+          handler: handleLCPChange
+        - event: LandChange(uint16,uint256,uint16)
+          handler: handleLandChange
+        - event: RaidAction(uint16,uint16,uint8)
+          handler: handleRaidAction
+        - event: RaidStatusChange(uint16,uint8)
+          handler: handleRaidStatusChange
+        - event: Staked(uint16,uint16,uint8,bool)
+          handler: handleStaked
+        - event: Swapped(uint16,uint16)
+          handler: handleSwapped
+        - event: Unstaked(uint16,uint32)
+          handler: handleUnstaked
+      file: ./src/mappings/wilds.ts
