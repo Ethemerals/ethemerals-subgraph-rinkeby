@@ -191,7 +191,7 @@ dataSources:
     name: Wilds
     network: rinkeby
     source:
-      address: '0xCfaD3968888E8663E42622d4aFc897a9a6eA4fa5'
+      address: '0x53779baa1887663e8Ff6B2DaAdFbC5c8Ea8C6E53'
       abi: Wilds
       startBlock: 9886894
     mapping:
