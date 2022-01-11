@@ -128,23 +128,32 @@ export function handleMint(event: Mint): void {
 	//   'Knight' 5,15,0
 	//   'Dark Knight' 15,5,0
 	//   'Dragoon' 10, 5, 5
+	// 150 + 123
 	// ],
 	if (metadata.subClass == 'Paladin') {
+		token.def = token.def.plus(BigInt.fromI32(200));
 		token.atkBonus = BigInt.fromI32(statData[0]);
 		token.defBonus = BigInt.fromI32(statData[1]).minus(BigInt.fromI32(200));
 		token.spdBonus = BigInt.fromI32(statData[2]);
 	}
 	if (metadata.subClass == 'Knight') {
+		token.atk = token.atk.plus(BigInt.fromI32(50));
+		token.def = token.def.plus(BigInt.fromI32(150));
 		token.atkBonus = BigInt.fromI32(statData[0]).minus(BigInt.fromI32(50));
 		token.defBonus = BigInt.fromI32(statData[1]).minus(BigInt.fromI32(150));
 		token.spdBonus = BigInt.fromI32(statData[2]);
 	}
 	if (metadata.subClass == 'Dark Knight') {
+		token.atk = token.atk.plus(BigInt.fromI32(150));
+		token.def = token.def.plus(BigInt.fromI32(50));
 		token.atkBonus = BigInt.fromI32(statData[0]).minus(BigInt.fromI32(150));
 		token.defBonus = BigInt.fromI32(statData[1]).minus(BigInt.fromI32(50));
 		token.spdBonus = BigInt.fromI32(statData[2]);
 	}
 	if (metadata.subClass == 'Dragoon') {
+		token.atk = token.atk.plus(BigInt.fromI32(100));
+		token.def = token.def.plus(BigInt.fromI32(50));
+		token.spd = token.spd.plus(BigInt.fromI32(50));
 		token.atkBonus = BigInt.fromI32(statData[0]).minus(BigInt.fromI32(100));
 		token.defBonus = BigInt.fromI32(statData[1]).minus(BigInt.fromI32(50));
 		token.spdBonus = BigInt.fromI32(statData[2]).minus(BigInt.fromI32(50));
@@ -156,21 +165,29 @@ export function handleMint(event: Mint): void {
 	//   'Druid' 7, 6, 7
 	// ],
 	if (metadata.subClass == 'Sorcerer') {
+		token.atk = token.atk.plus(BigInt.fromI32(200));
 		token.atkBonus = BigInt.fromI32(statData[0]).minus(BigInt.fromI32(200));
 		token.defBonus = BigInt.fromI32(statData[1]);
 		token.spdBonus = BigInt.fromI32(statData[2]);
 	}
 	if (metadata.subClass == 'Summoner') {
+		token.atk = token.atk.plus(BigInt.fromI32(100));
+		token.def = token.def.plus(BigInt.fromI32(100));
 		token.atkBonus = BigInt.fromI32(statData[0]).minus(BigInt.fromI32(100));
 		token.defBonus = BigInt.fromI32(statData[1]).minus(BigInt.fromI32(100));
 		token.spdBonus = BigInt.fromI32(statData[2]);
 	}
 	if (metadata.subClass == 'Cleric') {
+		token.def = token.def.plus(BigInt.fromI32(160));
+		token.spd = token.spd.plus(BigInt.fromI32(40));
 		token.atkBonus = BigInt.fromI32(statData[0]);
 		token.defBonus = BigInt.fromI32(statData[1]).minus(BigInt.fromI32(160));
 		token.spdBonus = BigInt.fromI32(statData[2]).minus(BigInt.fromI32(40));
 	}
 	if (metadata.subClass == 'Druid') {
+		token.atk = token.atk.plus(BigInt.fromI32(70));
+		token.def = token.def.plus(BigInt.fromI32(60));
+		token.spd = token.spd.plus(BigInt.fromI32(70));
 		token.atkBonus = BigInt.fromI32(statData[0]).minus(BigInt.fromI32(70));
 		token.defBonus = BigInt.fromI32(statData[1]).minus(BigInt.fromI32(60));
 		token.spdBonus = BigInt.fromI32(statData[2]).minus(BigInt.fromI32(70));
@@ -182,21 +199,29 @@ export function handleMint(event: Mint): void {
 	//   'Monk' 4, 8, 8
 	// ]
 	if (metadata.subClass == 'Ranger') {
+		token.spd = token.spd.plus(BigInt.fromI32(200));
 		token.atkBonus = BigInt.fromI32(statData[0]);
 		token.defBonus = BigInt.fromI32(statData[1]);
 		token.spdBonus = BigInt.fromI32(statData[2]).minus(BigInt.fromI32(200));
 	}
 	if (metadata.subClass == 'Berserker') {
+		token.atk = token.atk.plus(BigInt.fromI32(100));
+		token.spd = token.spd.plus(BigInt.fromI32(100));
 		token.atkBonus = BigInt.fromI32(statData[0]).minus(BigInt.fromI32(100));
 		token.defBonus = BigInt.fromI32(statData[1]);
 		token.spdBonus = BigInt.fromI32(statData[2]).minus(BigInt.fromI32(100));
 	}
 	if (metadata.subClass == 'Assassin') {
+		token.atk = token.atk.plus(BigInt.fromI32(120));
+		token.spd = token.spd.plus(BigInt.fromI32(80));
 		token.atkBonus = BigInt.fromI32(statData[0]).minus(BigInt.fromI32(120));
 		token.defBonus = BigInt.fromI32(statData[1]);
 		token.spdBonus = BigInt.fromI32(statData[2]).minus(BigInt.fromI32(80));
 	}
 	if (metadata.subClass == 'Monk') {
+		token.atk = token.atk.plus(BigInt.fromI32(40));
+		token.def = token.def.plus(BigInt.fromI32(80));
+		token.spd = token.spd.plus(BigInt.fromI32(80));
 		token.atkBonus = BigInt.fromI32(statData[0]).minus(BigInt.fromI32(40));
 		token.defBonus = BigInt.fromI32(statData[1]).minus(BigInt.fromI32(80));
 		token.spdBonus = BigInt.fromI32(statData[2]).minus(BigInt.fromI32(80));

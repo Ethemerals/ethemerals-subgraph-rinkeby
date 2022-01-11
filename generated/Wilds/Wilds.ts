@@ -206,7 +206,7 @@ export class Unstaked__Params {
   }
 }
 
-export class Wilds__getStakeEventResultValue0Struct extends ethereum.Tuple {
+export class Wilds__getStakeEventsResultValue0Struct extends ethereum.Tuple {
   get timestamp(): BigInt {
     return this[0].toBigInt();
   }
@@ -700,42 +700,30 @@ export class Wilds extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toI32Array());
   }
 
-  getStakeEvent(
-    _landId: i32,
-    _index: BigInt
-  ): Wilds__getStakeEventResultValue0Struct {
+  getStakeEvents(_landId: i32): Array<Wilds__getStakeEventsResultValue0Struct> {
     let result = super.call(
-      "getStakeEvent",
-      "getStakeEvent(uint16,uint256):((uint256,uint16))",
-      [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_landId)),
-        ethereum.Value.fromUnsignedBigInt(_index)
-      ]
+      "getStakeEvents",
+      "getStakeEvents(uint16):((uint256,uint16)[])",
+      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_landId))]
     );
 
-    return changetype<Wilds__getStakeEventResultValue0Struct>(
-      result[0].toTuple()
-    );
+    return result[0].toTupleArray<Wilds__getStakeEventsResultValue0Struct>();
   }
 
-  try_getStakeEvent(
-    _landId: i32,
-    _index: BigInt
-  ): ethereum.CallResult<Wilds__getStakeEventResultValue0Struct> {
+  try_getStakeEvents(
+    _landId: i32
+  ): ethereum.CallResult<Array<Wilds__getStakeEventsResultValue0Struct>> {
     let result = super.tryCall(
-      "getStakeEvent",
-      "getStakeEvent(uint16,uint256):((uint256,uint16))",
-      [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_landId)),
-        ethereum.Value.fromUnsignedBigInt(_index)
-      ]
+      "getStakeEvents",
+      "getStakeEvents(uint16):((uint256,uint16)[])",
+      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_landId))]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      changetype<Wilds__getStakeEventResultValue0Struct>(value[0].toTuple())
+      value[0].toTupleArray<Wilds__getStakeEventsResultValue0Struct>()
     );
   }
 
