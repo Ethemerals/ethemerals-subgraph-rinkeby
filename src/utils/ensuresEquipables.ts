@@ -3,7 +3,7 @@ import { Address, BigInt, BigDecimal, log, ethereum, json } from '@graphprotocol
 import { ADDRESS_ZERO, ZERO_BI, ZERO_BD, ONE_BI, TEN_BI, INI_SCORE, INI_ALLOWDELEGATES, CORE_ADDRESS, coreContract } from './constants';
 
 import { getMintPrice, getMaxAvailableIndex, getEthemeralSupply } from './contractCallsCore';
-import { getBalanceOf } from './contractCallsELF';
+
 import {
 	metaMainclass,
 	metaSubclass,
