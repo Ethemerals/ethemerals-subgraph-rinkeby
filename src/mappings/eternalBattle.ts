@@ -1,16 +1,14 @@
 import { Address, BigInt, BigDecimal, log, ethereum } from '@graphprotocol/graph-ts';
 import { addressId, transactionId } from '../utils/helpers';
 
-import { ensureDelegate, ensureDelegateAction, ensureAccount, ensureAccountAction, ensureCore, ensureCoreAction } from '../utils/ensuresCore';
+import { ensureAccount, ensureAccountAction } from '../utils/ensuresAccount';
 import { ensureEthemeral, ensureEthemeralAction, ensureMetadata, ensureScorecard } from '../utils/ensuresMerals';
-
-import { bonusStats } from '../metadata/meralBonusStats';
 
 import { getMintPrice, getMaxAvailableIndex, getEthemeralSupply } from '../utils/contractCallsCore';
 import { ADDRESS_ZERO, ZERO_BI, ZERO_BD, ONE_BI, TEN_BI, INI_SCORE, CORE_ADDRESS, coreContract } from '../utils/constants';
 import { OwnershipTransferred, StakeCanceled, StakeCreated, TokenRevived } from '../../generated/EternalBattle/EternalBattle';
 
-import { Ethemeral, Core, Account, CoreAction, EthemeralAction, AccountAction } from '../../generated/schema';
+import { Ethemeral, Account, EthemeralAction, AccountAction } from '../../generated/schema';
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {
 	// - contract.atkDivMod(...)

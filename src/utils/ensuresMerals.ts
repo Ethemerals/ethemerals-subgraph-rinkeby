@@ -7,7 +7,7 @@ import { metaMainclass, metaSubclass, metaCoinName, metaSpecial2, metaArtist, me
 import { meralTraits } from '../metadata/meralTraits';
 
 import { tokenToRanks } from '../metadata/tokenToRanks';
-import { Ethemeral, EthemeralAction, Metadata, Scorecard, WildsScoreCard } from '../../generated/schema';
+import { Ethemeral, EthemeralAction, Metadata, Scorecard } from '../../generated/schema';
 
 import { ensureTransaction } from './ensuresCommon';
 import { transactionId } from './helpers';
@@ -48,7 +48,6 @@ export function ensureEthemeral(event: ethereum.Event, tokenId: BigInt): Ethemer
 
 	ethemeral.petRedeemed = false;
 	ethemeral.scorecard = ensureScorecard(ethemeral.id).id;
-	ethemeral.wildsScoreCard = ensureWildsScoreCard(ethemeral.id).id;
 	ethemeral.metadata = ensureMetadata(BigInt.fromI32(rankData[0])).id;
 
 	ethemeral.save();
@@ -77,24 +76,6 @@ export function ensureScorecard(tokenId: string): Scorecard {
 
 	scorecard.save();
 
-	return scorecard;
-}
-
-export function ensureWildsScoreCard(tokenId: string): WildsScoreCard {
-	let scorecard = WildsScoreCard.load(tokenId);
-	if (scorecard) {
-		return scorecard;
-	}
-
-	scorecard = new WildsScoreCard(tokenId);
-	scorecard.ethemeral = tokenId;
-	scorecard.defend = ZERO_BI;
-	scorecard.loot = ZERO_BI;
-	scorecard.birth = ZERO_BI;
-	scorecard.attack = ZERO_BI;
-	scorecard.reviver = ZERO_BI;
-	scorecard.revived = ZERO_BI;
-	scorecard.save();
 	return scorecard;
 }
 

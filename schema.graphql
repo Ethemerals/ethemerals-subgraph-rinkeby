@@ -1,25 +1,6 @@
 ##############################
 ##   MAIN ENTITIES          ##
 ##############################
-
-type Core @entity {
-	id: ID!
-	timestamp: BigInt!
-	blockNumber: BigInt!
-	owner: Bytes!
-	mintPrice: BigInt!
-	maxAvailableIndex: BigInt
-	ethemeralSupply: BigInt
-}
-
-type Delegate @entity {
-	id: ID!
-	timestamp: BigInt!
-	blockNumber: BigInt!
-	active: Boolean!
-	actions: [DelegateAction!] @derivedFrom(field: "delegate")
-}
-
 type Ethemeral @entity {
 	id: ID!
 	timestamp: BigInt!
@@ -47,8 +28,6 @@ type Ethemeral @entity {
 	costume: String!
 	petRedeemed: Boolean!
 	scorecard: Scorecard!
-	wildsScoreCard: WildsScoreCard!
-	LCP: [WildLCP!] @derivedFrom(field: "ethemeral")
 	metadata: Metadata!
 	actions: [EthemeralAction!] @derivedFrom(field: "ethemeral")
 }
@@ -89,35 +68,16 @@ type Account @entity {
 	elfBalance: BigInt!
 	timestamp: BigInt!
 	blockNumber: BigInt!
-	allowDelegates: Boolean!
 	ethemerals: [Ethemeral!] @derivedFrom(field: "owner")
 	created: [Ethemeral!] @derivedFrom(field: "creator")
 	pets: [Pet!] @derivedFrom(field: "owner")
 	createdPets: [Pet!] @derivedFrom(field: "creator")
-	items: [Item!] @derivedFrom(field: "owner")
-	createdItems: [Item!] @derivedFrom(field: "creator")
 	actions: [AccountAction!] @derivedFrom(field: "account")
 }
 
 ##############################
 ##         Actions          ##
 ##############################
-
-type CoreAction @entity {
-	id: ID!
-	timestamp: BigInt!
-	transaction: Transaction!
-	type: CoreActionType!
-}
-
-type DelegateAction @entity {
-	id: ID!
-	delegate: Delegate!
-	timestamp: BigInt!
-	transaction: Transaction!
-	type: DelegateActionType!
-}
-
 type EthemeralAction @entity {
 	id: ID!
 	ethemeral: Ethemeral!
@@ -137,7 +97,6 @@ type AccountAction @entity {
 	account: Account!
 	ethemeral: Ethemeral
 	pet: Pet
-	item: Item
 	timestamp: BigInt!
 	transaction: Transaction!
 	type: ActionType!
@@ -168,7 +127,6 @@ type PetMetadata @entity {
 	id: ID!
 	pets: [Pet!] @derivedFrom(field: "metadata")
 	editionCount: BigInt!
-	name: String!
 }
 
 type PetAction @entity {
@@ -179,118 +137,13 @@ type PetAction @entity {
 	type: ActionType!
 }
 
-type Item @entity {
-	id: ID!
-	timestamp: BigInt!
-	blockNumber: BigInt!
-	creator: Account!
-	owner: Account!
-	previousOwner: Account!
-	baseId: BigInt!
-	edition: BigInt
-	atk: BigInt!
-	def: BigInt!
-	spd: BigInt!
-	rarity: BigInt!
-	metadata: ItemMetadata!
-}
-
-type ItemMetadata @entity {
-	id: ID!
-	items: [Item!] @derivedFrom(field: "metadata")
-	editionCount: BigInt!
-	name: String!
-}
-
-type ItemAction @entity {
-	id: ID!
-	item: Item!
-	timestamp: BigInt
-	transaction: Transaction!
-	type: ActionType!
-}
-
-##############################
-##         ART              ##
-##############################
-
-type Art @entity {
-	id: ID!
-	timestamp: BigInt!
-	blockNumber: BigInt!
-	creator: Account!
-	owner: Account!
-	baseId: BigInt!
-	winner: Account
-	edition: BigInt
-	title: String
-	desc: String
-	artist: String
-}
-
 ##############################
 ##         Wilds              ##
 ##############################
 
-type WildLand @entity {
-	id: ID!
-	timestamp: BigInt!
-	raidStatus: BigInt!
-	remainingELFx: BigInt
-	emissionRate: BigInt
-	lastEvent: BigInt
-	lastRaid: BigInt
-	baseDefence: BigInt
-	wildStakes: [WildStake!] @derivedFrom(field: "land")
-	lcp: [WildLCP!] @derivedFrom(field: "land")
-}
-
-type WildStake @entity {
-	id: ID!
-	active: Boolean!
-	ethemeral: Ethemeral!
-	land: WildLand
-	stakeType: BigInt
-	startedAt: BigInt
-	lastActionAt: BigInt
-	damage: BigInt
-	health: BigInt
-}
-
-type WildLCP @entity {
-	id: ID!
-	land: WildLand!
-	ethemeral: Ethemeral!
-	points: BigInt!
-}
-
-type WildsScoreCard @entity {
-	id: ID!
-	ethemeral: Ethemeral!
-	defend: BigInt!
-	loot: BigInt!
-	birth: BigInt!
-	attack: BigInt!
-	revived: BigInt!
-	reviver: BigInt!
-}
-
 ##############################
 ##         Enums            ##
 ##############################
-
-enum CoreActionType {
-	Default
-	OwnershipTransferred
-	ETHPriceChange
-	ELFPriceChange
-	ChangeScore
-}
-
-enum DelegateActionType {
-	Default
-	DelegateChange
-}
 
 enum ActionType {
 	Default

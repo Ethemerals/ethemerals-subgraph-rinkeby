@@ -2,7 +2,6 @@
 import { BigInt, BigDecimal, Address } from '@graphprotocol/graph-ts';
 import { Ethemerals } from '../../generated/Ethemerals/Ethemerals';
 import { EternalBattle } from '../../generated/EternalBattle/EternalBattle';
-import { EthemeralLifeForce } from '../../generated/EthemeralLifeForce/EthemeralLifeForce';
 
 // export let MIN_ID = BigInt.fromString('10');
 // export let MAX_ID = BigInt.fromString('6909');
@@ -14,7 +13,6 @@ export let CORE_ADDRESS = '0xcdb47e685819638668ff736d1a2ae32b68e76ba5';
 export let EQUIPABLE_ADDRESS = '0xc2cd83998d5d76f64830fbd1df2e8b221c4f31a2';
 export let ETERNALBATTLE_ADDRESS = '0x883170aAcEB39a23642f5aAaab083F5684D3fFB1';
 
-export let elfContract = EthemeralLifeForce.bind(Address.fromString(ELF_ADDRESS));
 export let coreContract = Ethemerals.bind(Address.fromString(CORE_ADDRESS));
 export let eternalBattleContract = EternalBattle.bind(Address.fromString(ETERNALBATTLE_ADDRESS));
 
