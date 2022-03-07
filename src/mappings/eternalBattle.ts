@@ -2,13 +2,12 @@ import { Address, BigInt, BigDecimal, log, ethereum } from '@graphprotocol/graph
 import { addressId, transactionId } from '../utils/helpers';
 
 import { ensureAccount, ensureAccountAction } from '../utils/ensuresAccount';
-import { ensureEthemeral, ensureEthemeralAction, ensureMetadata, ensureScorecard } from '../utils/ensuresMerals';
+import { ensureMeral, ensureMeralAction, ensureMetadata, ensureScorecard } from '../utils/ensuresMerals';
 
-import { getMintPrice, getMaxAvailableIndex, getEthemeralSupply } from '../utils/contractCallsCore';
-import { ADDRESS_ZERO, ZERO_BI, ZERO_BD, ONE_BI, TEN_BI, INI_SCORE, CORE_ADDRESS, coreContract } from '../utils/constants';
+import { ADDRESS_ZERO, ZERO_BI, ZERO_BD, ONE_BI, TEN_BI, INI_SCORE } from '../utils/constants';
 import { OwnershipTransferred, StakeCanceled, StakeCreated, TokenRevived } from '../../generated/EternalBattle/EternalBattle';
 
-import { Ethemeral, Account, EthemeralAction, AccountAction } from '../../generated/schema';
+import { Account, AccountAction } from '../../generated/schema';
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {
 	// - contract.atkDivMod(...)
@@ -23,9 +22,9 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
 }
 
 export function handleStakeCanceled(event: StakeCanceled): void {
-	let token = ensureEthemeral(event, event.params.tokenId);
+	let token = ensureMeral(event, event.params.tokenId);
 	let tokenScorecard = ensureScorecard(token.id);
-	let tokenAction = ensureEthemeralAction(event, token.id);
+	let tokenAction = ensureMeralAction(event, token.id);
 	tokenAction.type = 'Unstaked';
 	tokenAction.staked = false;
 
@@ -37,15 +36,15 @@ export function handleStakeCanceled(event: StakeCanceled): void {
 	let account = ensureAccount(event, token.owner);
 	let accountAction = ensureAccountAction(event, account.id);
 	accountAction.type = 'Unstaked';
-	accountAction.ethemeral = token.id;
+	accountAction.meral = token.id;
 
 	tokenAction.save();
 	accountAction.save();
 }
 
 export function handleStakeCreated(event: StakeCreated): void {
-	let token = ensureEthemeral(event, event.params.tokenId);
-	let tokenAction = ensureEthemeralAction(event, token.id);
+	let token = ensureMeral(event, event.params.tokenId);
+	let tokenAction = ensureMeralAction(event, token.id);
 	tokenAction.type = 'Staked';
 	tokenAction.staked = true;
 	tokenAction.priceFeed = event.params.priceFeedId;
@@ -56,7 +55,7 @@ export function handleStakeCreated(event: StakeCreated): void {
 
 	let account = ensureAccount(event, token.owner);
 	let accountAction = ensureAccountAction(event, account.id);
-	accountAction.ethemeral = token.id;
+	accountAction.meral = token.id;
 	accountAction.type = 'Staked';
 
 	tokenAction.save();
@@ -65,26 +64,26 @@ export function handleStakeCreated(event: StakeCreated): void {
 }
 
 export function handleTokenRevived(event: TokenRevived): void {
-	let token = ensureEthemeral(event, event.params.tokenId);
-	let tokenAction = ensureEthemeralAction(event, token.id);
+	let token = ensureMeral(event, event.params.tokenId);
+	let tokenAction = ensureMeralAction(event, token.id);
 	let tokenScorecard = ensureScorecard(token.id);
 	tokenAction.staked = false;
 
-	let tokenReviver = ensureEthemeral(event, event.params.reviver);
-	let tokenReviverAction = ensureEthemeralAction(event, tokenReviver.id);
+	let tokenReviver = ensureMeral(event, event.params.reviver);
+	let tokenReviverAction = ensureMeralAction(event, tokenReviver.id);
 	let tokenReviverScorecard = ensureScorecard(tokenReviver.id);
 
 	if (token.owner !== tokenReviver.owner) {
 		let account = ensureAccount(event, token.owner);
 		let accountAction = ensureAccountAction(event, account.id);
 		accountAction.type = 'Revived';
-		accountAction.ethemeral = token.id;
+		accountAction.meral = token.id;
 		accountAction.save();
 	}
 
 	let accountReviver = ensureAccount(event, tokenReviver.owner);
 	let accountReviverAction = ensureAccountAction(event, accountReviver.id);
-	accountReviverAction.ethemeral = tokenReviver.id;
+	accountReviverAction.meral = tokenReviver.id;
 
 	tokenAction.type = 'Revived';
 	tokenReviverAction.type = 'Reviver';

@@ -1,13 +1,59 @@
 import { Address, BigInt, BigDecimal, log, ethereum, json } from '@graphprotocol/graph-ts';
 
-import { ADDRESS_ZERO, ZERO_BI, ZERO_BD, ONE_BI, TEN_BI, INI_SCORE, INI_ALLOWDELEGATES, CORE_ADDRESS, coreContract } from './constants';
+import { ADDRESS_ZERO, ZERO_BI, ZERO_BD, ONE_BI, TEN_BI, INI_SCORE, CORE_ADDRESS } from './constants';
 
+import { Core, AccountAction, Transaction, Account, Delegate, Operator } from '../../generated/schema';
 import { getMintPrice, getMaxAvailableIndex, getEthemeralSupply } from './contractCallsCore';
-
-import { AccountAction, Transaction, Account } from '../../generated/schema';
-
 import { ensureTransaction } from './ensuresCommon';
 import { transactionId } from './helpers';
+
+export function ensureCore(event: ethereum.Event): Core {
+	let core = Core.load(CORE_ADDRESS);
+	if (core) {
+		return core;
+	}
+
+	core = new Core(CORE_ADDRESS);
+	core.mintPrice = getMintPrice();
+	core.maxAvailableIndex = getMaxAvailableIndex();
+	core.ethemeralSupply = getEthemeralSupply();
+
+	core.save();
+
+	return core;
+}
+
+export function ensureDelegate(event: ethereum.Event, id: string): Delegate {
+	let delegate = Delegate.load(id);
+	if (delegate) {
+		return delegate;
+	}
+
+	delegate = new Delegate(id);
+	delegate.timestamp = event.block.timestamp;
+	delegate.blockNumber = event.block.number;
+	delegate.active = true;
+	delegate.save();
+
+	return delegate;
+}
+
+export function ensureOperator(event: ethereum.Event, operatorAddress: string, ownerAddress: string): Operator {
+	let id = operatorAddress + '/' + ownerAddress;
+	let operator = Operator.load(id);
+	if (operator) {
+		return operator;
+	}
+
+	operator = new Operator(id);
+	operator.timestamp = event.block.timestamp;
+	operator.blockNumber = event.block.number;
+	operator.approved = false;
+	operator.owner = ownerAddress;
+	operator.save();
+
+	return operator;
+}
 
 export function ensureAccount(event: ethereum.Event, id: string): Account {
 	let account = Account.load(id);
@@ -19,6 +65,7 @@ export function ensureAccount(event: ethereum.Event, id: string): Account {
 	account.elfBalance = ZERO_BI;
 	account.timestamp = event.block.timestamp;
 	account.blockNumber = event.block.number;
+	account.allowDelegates = false;
 	account.save();
 
 	return account;

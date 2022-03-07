@@ -14,6 +14,7 @@ dataSources:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
+        - Core
         - Ethemeral
         - Metadata
         - Scorecard
@@ -60,6 +61,7 @@ dataSources:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
+        - Core
         - Pet
         - PetMetadata
         - Account
@@ -81,7 +83,7 @@ dataSources:
           handler: handleOwnershipTransferred
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-      file: ./src/mappings/equipables.ts
+      file: ./src/mappings/pets.ts
 
   # ETERNAL BATTLE
   - kind: ethereum/contract
@@ -96,6 +98,7 @@ dataSources:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
+        - Core
         - Ethemeral
         - Metadata
         - Scorecard

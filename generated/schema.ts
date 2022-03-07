@@ -11,53 +11,29 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class Ethemeral extends Entity {
+export class Core extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
 
-    this.set("timestamp", Value.fromBigInt(BigInt.zero()));
-    this.set("blockNumber", Value.fromBigInt(BigInt.zero()));
-    this.set("creator", Value.fromString(""));
-    this.set("owner", Value.fromString(""));
-    this.set("previousOwner", Value.fromString(""));
-    this.set("score", Value.fromBigInt(BigInt.zero()));
-    this.set("rewards", Value.fromBigInt(BigInt.zero()));
-    this.set("atk", Value.fromBigInt(BigInt.zero()));
-    this.set("def", Value.fromBigInt(BigInt.zero()));
-    this.set("spd", Value.fromBigInt(BigInt.zero()));
-    this.set("atkBonus", Value.fromBigInt(BigInt.zero()));
-    this.set("defBonus", Value.fromBigInt(BigInt.zero()));
-    this.set("spdBonus", Value.fromBigInt(BigInt.zero()));
-    this.set("baseId", Value.fromBigInt(BigInt.zero()));
-    this.set("bgId", Value.fromBigInt(BigInt.zero()));
-    this.set("coin", Value.fromString(""));
-    this.set("mainClass", Value.fromString(""));
-    this.set("subClass", Value.fromString(""));
-    this.set("hair", Value.fromString(""));
-    this.set("eyes", Value.fromString(""));
-    this.set("skin", Value.fromString(""));
-    this.set("costume", Value.fromString(""));
-    this.set("petRedeemed", Value.fromBoolean(false));
-    this.set("scorecard", Value.fromString(""));
-    this.set("metadata", Value.fromString(""));
+    this.set("mintPrice", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save Ethemeral entity without an ID");
+    assert(id != null, "Cannot save Core entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        "Cannot save Ethemeral entity with non-string ID. " +
+        "Cannot save Core entity with non-string ID. " +
           'Considering using .toHex() to convert the "id" to a string.'
       );
-      store.set("Ethemeral", id.toString(), this);
+      store.set("Core", id.toString(), this);
     }
   }
 
-  static load(id: string): Ethemeral | null {
-    return changetype<Ethemeral | null>(store.get("Ethemeral", id));
+  static load(id: string): Core | null {
+    return changetype<Core | null>(store.get("Core", id));
   }
 
   get id(): string {
@@ -67,6 +43,280 @@ export class Ethemeral extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get mintPrice(): BigInt {
+    let value = this.get("mintPrice");
+    return value!.toBigInt();
+  }
+
+  set mintPrice(value: BigInt) {
+    this.set("mintPrice", Value.fromBigInt(value));
+  }
+
+  get maxAvailableIndex(): BigInt | null {
+    let value = this.get("maxAvailableIndex");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set maxAvailableIndex(value: BigInt | null) {
+    if (!value) {
+      this.unset("maxAvailableIndex");
+    } else {
+      this.set("maxAvailableIndex", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get ethemeralSupply(): BigInt | null {
+    let value = this.get("ethemeralSupply");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set ethemeralSupply(value: BigInt | null) {
+    if (!value) {
+      this.unset("ethemeralSupply");
+    } else {
+      this.set("ethemeralSupply", Value.fromBigInt(<BigInt>value));
+    }
+  }
+}
+
+export class Delegate extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("timestamp", Value.fromBigInt(BigInt.zero()));
+    this.set("blockNumber", Value.fromBigInt(BigInt.zero()));
+    this.set("active", Value.fromBoolean(false));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Delegate entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save Delegate entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("Delegate", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Delegate | null {
+    return changetype<Delegate | null>(store.get("Delegate", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get blockNumber(): BigInt {
+    let value = this.get("blockNumber");
+    return value!.toBigInt();
+  }
+
+  set blockNumber(value: BigInt) {
+    this.set("blockNumber", Value.fromBigInt(value));
+  }
+
+  get active(): boolean {
+    let value = this.get("active");
+    return value!.toBoolean();
+  }
+
+  set active(value: boolean) {
+    this.set("active", Value.fromBoolean(value));
+  }
+}
+
+export class Operator extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("address", Value.fromString(""));
+    this.set("timestamp", Value.fromBigInt(BigInt.zero()));
+    this.set("blockNumber", Value.fromBigInt(BigInt.zero()));
+    this.set("approved", Value.fromBoolean(false));
+    this.set("owner", Value.fromString(""));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Operator entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save Operator entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("Operator", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Operator | null {
+    return changetype<Operator | null>(store.get("Operator", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get address(): string {
+    let value = this.get("address");
+    return value!.toString();
+  }
+
+  set address(value: string) {
+    this.set("address", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get blockNumber(): BigInt {
+    let value = this.get("blockNumber");
+    return value!.toBigInt();
+  }
+
+  set blockNumber(value: BigInt) {
+    this.set("blockNumber", Value.fromBigInt(value));
+  }
+
+  get approved(): boolean {
+    let value = this.get("approved");
+    return value!.toBoolean();
+  }
+
+  set approved(value: boolean) {
+    this.set("approved", Value.fromBoolean(value));
+  }
+
+  get owner(): string {
+    let value = this.get("owner");
+    return value!.toString();
+  }
+
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
+  }
+}
+
+export class Meral extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("tokenId", Value.fromBigInt(BigInt.zero()));
+    this.set("meralId", Value.fromBigInt(BigInt.zero()));
+    this.set("timestamp", Value.fromBigInt(BigInt.zero()));
+    this.set("blockNumber", Value.fromBigInt(BigInt.zero()));
+    this.set("creator", Value.fromString(""));
+    this.set("owner", Value.fromString(""));
+    this.set("previousOwner", Value.fromString(""));
+    this.set("petRedeemed", Value.fromBoolean(false));
+    this.set("edition", Value.fromBigInt(BigInt.zero()));
+    this.set("hp", Value.fromBigInt(BigInt.zero()));
+    this.set("elf", Value.fromBigInt(BigInt.zero()));
+    this.set("xp", Value.fromBigInt(BigInt.zero()));
+    this.set("atk", Value.fromBigInt(BigInt.zero()));
+    this.set("def", Value.fromBigInt(BigInt.zero()));
+    this.set("spd", Value.fromBigInt(BigInt.zero()));
+    this.set("atkBonus", Value.fromBigInt(BigInt.zero()));
+    this.set("defBonus", Value.fromBigInt(BigInt.zero()));
+    this.set("spdBonus", Value.fromBigInt(BigInt.zero()));
+    this.set("cmId", Value.fromBigInt(BigInt.zero()));
+    this.set("coin", Value.fromString(""));
+    this.set("name", Value.fromString(""));
+    this.set("artist", Value.fromString(""));
+    this.set("element", Value.fromBigInt(BigInt.zero()));
+    this.set("mainclass", Value.fromBigInt(BigInt.zero()));
+    this.set("subclass", Value.fromBigInt(BigInt.zero()));
+    this.set("hair", Value.fromString(""));
+    this.set("eyes", Value.fromString(""));
+    this.set("skin", Value.fromString(""));
+    this.set("costume", Value.fromString(""));
+    this.set("scorecard", Value.fromString(""));
+    this.set("metadata", Value.fromString(""));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Meral entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save Meral entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("Meral", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Meral | null {
+    return changetype<Meral | null>(store.get("Meral", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get tokenId(): BigInt {
+    let value = this.get("tokenId");
+    return value!.toBigInt();
+  }
+
+  set tokenId(value: BigInt) {
+    this.set("tokenId", Value.fromBigInt(value));
+  }
+
+  get meralId(): BigInt {
+    let value = this.get("meralId");
+    return value!.toBigInt();
+  }
+
+  set meralId(value: BigInt) {
+    this.set("meralId", Value.fromBigInt(value));
   }
 
   get timestamp(): BigInt {
@@ -114,22 +364,49 @@ export class Ethemeral extends Entity {
     this.set("previousOwner", Value.fromString(value));
   }
 
-  get score(): BigInt {
-    let value = this.get("score");
+  get petRedeemed(): boolean {
+    let value = this.get("petRedeemed");
+    return value!.toBoolean();
+  }
+
+  set petRedeemed(value: boolean) {
+    this.set("petRedeemed", Value.fromBoolean(value));
+  }
+
+  get edition(): BigInt {
+    let value = this.get("edition");
     return value!.toBigInt();
   }
 
-  set score(value: BigInt) {
-    this.set("score", Value.fromBigInt(value));
+  set edition(value: BigInt) {
+    this.set("edition", Value.fromBigInt(value));
   }
 
-  get rewards(): BigInt {
-    let value = this.get("rewards");
+  get hp(): BigInt {
+    let value = this.get("hp");
     return value!.toBigInt();
   }
 
-  set rewards(value: BigInt) {
-    this.set("rewards", Value.fromBigInt(value));
+  set hp(value: BigInt) {
+    this.set("hp", Value.fromBigInt(value));
+  }
+
+  get elf(): BigInt {
+    let value = this.get("elf");
+    return value!.toBigInt();
+  }
+
+  set elf(value: BigInt) {
+    this.set("elf", Value.fromBigInt(value));
+  }
+
+  get xp(): BigInt {
+    let value = this.get("xp");
+    return value!.toBigInt();
+  }
+
+  set xp(value: BigInt) {
+    this.set("xp", Value.fromBigInt(value));
   }
 
   get atk(): BigInt {
@@ -186,39 +463,13 @@ export class Ethemeral extends Entity {
     this.set("spdBonus", Value.fromBigInt(value));
   }
 
-  get baseId(): BigInt {
-    let value = this.get("baseId");
+  get cmId(): BigInt {
+    let value = this.get("cmId");
     return value!.toBigInt();
   }
 
-  set baseId(value: BigInt) {
-    this.set("baseId", Value.fromBigInt(value));
-  }
-
-  get edition(): BigInt | null {
-    let value = this.get("edition");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set edition(value: BigInt | null) {
-    if (!value) {
-      this.unset("edition");
-    } else {
-      this.set("edition", Value.fromBigInt(<BigInt>value));
-    }
-  }
-
-  get bgId(): BigInt {
-    let value = this.get("bgId");
-    return value!.toBigInt();
-  }
-
-  set bgId(value: BigInt) {
-    this.set("bgId", Value.fromBigInt(value));
+  set cmId(value: BigInt) {
+    this.set("cmId", Value.fromBigInt(value));
   }
 
   get coin(): string {
@@ -230,22 +481,49 @@ export class Ethemeral extends Entity {
     this.set("coin", Value.fromString(value));
   }
 
-  get mainClass(): string {
-    let value = this.get("mainClass");
+  get name(): string {
+    let value = this.get("name");
     return value!.toString();
   }
 
-  set mainClass(value: string) {
-    this.set("mainClass", Value.fromString(value));
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
   }
 
-  get subClass(): string {
-    let value = this.get("subClass");
+  get artist(): string {
+    let value = this.get("artist");
     return value!.toString();
   }
 
-  set subClass(value: string) {
-    this.set("subClass", Value.fromString(value));
+  set artist(value: string) {
+    this.set("artist", Value.fromString(value));
+  }
+
+  get element(): BigInt {
+    let value = this.get("element");
+    return value!.toBigInt();
+  }
+
+  set element(value: BigInt) {
+    this.set("element", Value.fromBigInt(value));
+  }
+
+  get mainclass(): BigInt {
+    let value = this.get("mainclass");
+    return value!.toBigInt();
+  }
+
+  set mainclass(value: BigInt) {
+    this.set("mainclass", Value.fromBigInt(value));
+  }
+
+  get subclass(): BigInt {
+    let value = this.get("subclass");
+    return value!.toBigInt();
+  }
+
+  set subclass(value: BigInt) {
+    this.set("subclass", Value.fromBigInt(value));
   }
 
   get hair(): string {
@@ -282,15 +560,6 @@ export class Ethemeral extends Entity {
 
   set costume(value: string) {
     this.set("costume", Value.fromString(value));
-  }
-
-  get petRedeemed(): boolean {
-    let value = this.get("petRedeemed");
-    return value!.toBoolean();
-  }
-
-  set petRedeemed(value: boolean) {
-    this.set("petRedeemed", Value.fromBoolean(value));
   }
 
   get scorecard(): string {
@@ -335,16 +604,6 @@ export class Metadata extends Entity {
     this.set("id", Value.fromString(id));
 
     this.set("editionCount", Value.fromBigInt(BigInt.zero()));
-    this.set("coin", Value.fromString(""));
-    this.set("artist", Value.fromString(""));
-    this.set("mainClass", Value.fromString(""));
-    this.set("subClass", Value.fromString(""));
-    this.set("special1", Value.fromI32(0));
-    this.set("special2", Value.fromString(""));
-    this.set("hair", Value.fromString(""));
-    this.set("eyes", Value.fromString(""));
-    this.set("skin", Value.fromString(""));
-    this.set("costume", Value.fromString(""));
   }
 
   save(): void {
@@ -373,8 +632,8 @@ export class Metadata extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get ethemerals(): Array<string> | null {
-    let value = this.get("ethemerals");
+  get merals(): Array<string> | null {
+    let value = this.get("merals");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -382,11 +641,11 @@ export class Metadata extends Entity {
     }
   }
 
-  set ethemerals(value: Array<string> | null) {
+  set merals(value: Array<string> | null) {
     if (!value) {
-      this.unset("ethemerals");
+      this.unset("merals");
     } else {
-      this.set("ethemerals", Value.fromStringArray(<Array<string>>value));
+      this.set("merals", Value.fromStringArray(<Array<string>>value));
     }
   }
 
@@ -398,96 +657,6 @@ export class Metadata extends Entity {
   set editionCount(value: BigInt) {
     this.set("editionCount", Value.fromBigInt(value));
   }
-
-  get coin(): string {
-    let value = this.get("coin");
-    return value!.toString();
-  }
-
-  set coin(value: string) {
-    this.set("coin", Value.fromString(value));
-  }
-
-  get artist(): string {
-    let value = this.get("artist");
-    return value!.toString();
-  }
-
-  set artist(value: string) {
-    this.set("artist", Value.fromString(value));
-  }
-
-  get mainClass(): string {
-    let value = this.get("mainClass");
-    return value!.toString();
-  }
-
-  set mainClass(value: string) {
-    this.set("mainClass", Value.fromString(value));
-  }
-
-  get subClass(): string {
-    let value = this.get("subClass");
-    return value!.toString();
-  }
-
-  set subClass(value: string) {
-    this.set("subClass", Value.fromString(value));
-  }
-
-  get special1(): i32 {
-    let value = this.get("special1");
-    return value!.toI32();
-  }
-
-  set special1(value: i32) {
-    this.set("special1", Value.fromI32(value));
-  }
-
-  get special2(): string {
-    let value = this.get("special2");
-    return value!.toString();
-  }
-
-  set special2(value: string) {
-    this.set("special2", Value.fromString(value));
-  }
-
-  get hair(): string {
-    let value = this.get("hair");
-    return value!.toString();
-  }
-
-  set hair(value: string) {
-    this.set("hair", Value.fromString(value));
-  }
-
-  get eyes(): string {
-    let value = this.get("eyes");
-    return value!.toString();
-  }
-
-  set eyes(value: string) {
-    this.set("eyes", Value.fromString(value));
-  }
-
-  get skin(): string {
-    let value = this.get("skin");
-    return value!.toString();
-  }
-
-  set skin(value: string) {
-    this.set("skin", Value.fromString(value));
-  }
-
-  get costume(): string {
-    let value = this.get("costume");
-    return value!.toString();
-  }
-
-  set costume(value: string) {
-    this.set("costume", Value.fromString(value));
-  }
 }
 
 export class Scorecard extends Entity {
@@ -495,7 +664,7 @@ export class Scorecard extends Entity {
     super();
     this.set("id", Value.fromString(id));
 
-    this.set("ethemeral", Value.fromString(""));
+    this.set("meral", Value.fromString(""));
     this.set("highestScore", Value.fromBigInt(BigInt.zero()));
     this.set("highestRewards", Value.fromBigInt(BigInt.zero()));
     this.set("battles", Value.fromBigInt(BigInt.zero()));
@@ -534,13 +703,13 @@ export class Scorecard extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get ethemeral(): string {
-    let value = this.get("ethemeral");
+  get meral(): string {
+    let value = this.get("meral");
     return value!.toString();
   }
 
-  set ethemeral(value: string) {
-    this.set("ethemeral", Value.fromString(value));
+  set meral(value: string) {
+    this.set("meral", Value.fromString(value));
   }
 
   get highestScore(): BigInt {
@@ -642,6 +811,7 @@ export class Account extends Entity {
     this.set("elfBalance", Value.fromBigInt(BigInt.zero()));
     this.set("timestamp", Value.fromBigInt(BigInt.zero()));
     this.set("blockNumber", Value.fromBigInt(BigInt.zero()));
+    this.set("allowDelegates", Value.fromBoolean(false));
   }
 
   save(): void {
@@ -697,8 +867,17 @@ export class Account extends Entity {
     this.set("blockNumber", Value.fromBigInt(value));
   }
 
-  get ethemerals(): Array<string> | null {
-    let value = this.get("ethemerals");
+  get allowDelegates(): boolean {
+    let value = this.get("allowDelegates");
+    return value!.toBoolean();
+  }
+
+  set allowDelegates(value: boolean) {
+    this.set("allowDelegates", Value.fromBoolean(value));
+  }
+
+  get operators(): Array<string> | null {
+    let value = this.get("operators");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -706,11 +885,28 @@ export class Account extends Entity {
     }
   }
 
-  set ethemerals(value: Array<string> | null) {
+  set operators(value: Array<string> | null) {
     if (!value) {
-      this.unset("ethemerals");
+      this.unset("operators");
     } else {
-      this.set("ethemerals", Value.fromStringArray(<Array<string>>value));
+      this.set("operators", Value.fromStringArray(<Array<string>>value));
+    }
+  }
+
+  get merals(): Array<string> | null {
+    let value = this.get("merals");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set merals(value: Array<string> | null) {
+    if (!value) {
+      this.unset("merals");
+    } else {
+      this.set("merals", Value.fromStringArray(<Array<string>>value));
     }
   }
 
@@ -783,12 +979,12 @@ export class Account extends Entity {
   }
 }
 
-export class EthemeralAction extends Entity {
+export class MeralAction extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
 
-    this.set("ethemeral", Value.fromString(""));
+    this.set("meral", Value.fromString(""));
     this.set("timestamp", Value.fromBigInt(BigInt.zero()));
     this.set("transaction", Value.fromString(""));
     this.set("type", Value.fromString(""));
@@ -796,19 +992,19 @@ export class EthemeralAction extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save EthemeralAction entity without an ID");
+    assert(id != null, "Cannot save MeralAction entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        "Cannot save EthemeralAction entity with non-string ID. " +
+        "Cannot save MeralAction entity with non-string ID. " +
           'Considering using .toHex() to convert the "id" to a string.'
       );
-      store.set("EthemeralAction", id.toString(), this);
+      store.set("MeralAction", id.toString(), this);
     }
   }
 
-  static load(id: string): EthemeralAction | null {
-    return changetype<EthemeralAction | null>(store.get("EthemeralAction", id));
+  static load(id: string): MeralAction | null {
+    return changetype<MeralAction | null>(store.get("MeralAction", id));
   }
 
   get id(): string {
@@ -820,13 +1016,13 @@ export class EthemeralAction extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get ethemeral(): string {
-    let value = this.get("ethemeral");
+  get meral(): string {
+    let value = this.get("meral");
     return value!.toString();
   }
 
-  set ethemeral(value: string) {
-    this.set("ethemeral", Value.fromString(value));
+  set meral(value: string) {
+    this.set("meral", Value.fromString(value));
   }
 
   get score(): BigInt | null {
@@ -981,8 +1177,8 @@ export class AccountAction extends Entity {
     this.set("account", Value.fromString(value));
   }
 
-  get ethemeral(): string | null {
-    let value = this.get("ethemeral");
+  get meral(): string | null {
+    let value = this.get("meral");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -990,11 +1186,11 @@ export class AccountAction extends Entity {
     }
   }
 
-  set ethemeral(value: string | null) {
+  set meral(value: string | null) {
     if (!value) {
-      this.unset("ethemeral");
+      this.unset("meral");
     } else {
-      this.set("ethemeral", Value.fromString(<string>value));
+      this.set("meral", Value.fromString(<string>value));
     }
   }
 
@@ -1048,6 +1244,7 @@ export class Pet extends Entity {
     super();
     this.set("id", Value.fromString(id));
 
+    this.set("tokenId", Value.fromBigInt(BigInt.zero()));
     this.set("timestamp", Value.fromBigInt(BigInt.zero()));
     this.set("blockNumber", Value.fromBigInt(BigInt.zero()));
     this.set("creator", Value.fromString(""));
@@ -1086,6 +1283,15 @@ export class Pet extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get tokenId(): BigInt {
+    let value = this.get("tokenId");
+    return value!.toBigInt();
+  }
+
+  set tokenId(value: BigInt) {
+    this.set("tokenId", Value.fromBigInt(value));
   }
 
   get timestamp(): BigInt {

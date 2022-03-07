@@ -1,10 +1,8 @@
 import { Address, BigInt, BigDecimal, log, ethereum, json, JSONValueKind } from '@graphprotocol/graph-ts';
 
-import { ADDRESS_ZERO, ZERO_BI, ZERO_BD, ONE_BI, TEN_BI, INI_SCORE, INI_ALLOWDELEGATES, CORE_ADDRESS, coreContract } from './constants';
+import { ADDRESS_ZERO, ZERO_BI, ZERO_BD, ONE_BI, TEN_BI, INI_SCORE } from './constants';
 
-import { getMintPrice, getMaxAvailableIndex, getEthemeralSupply } from './contractCallsCore';
-
-import { AccountAction, Transaction, Account, Ethemeral, EthemeralAction, Metadata, Scorecard, Pet, PetMetadata, PetAction } from '../../generated/schema';
+import { AccountAction, Transaction, Account, Metadata, Scorecard, Pet, PetMetadata, PetAction } from '../../generated/schema';
 
 import { ensureTransaction } from './ensuresCommon';
 import { transactionId } from './helpers';
@@ -18,11 +16,12 @@ export function ensurePet(event: ethereum.Event, tokenId: BigInt): Pet {
 	}
 
 	pet = new Pet(id);
+	pet.tokenId = tokenId;
 	pet.timestamp = event.block.timestamp;
 	pet.blockNumber = event.block.number;
-	pet.creator = CORE_ADDRESS;
-	pet.owner = CORE_ADDRESS;
-	pet.previousOwner = CORE_ADDRESS;
+	pet.creator = ADDRESS_ZERO;
+	pet.owner = ADDRESS_ZERO;
+	pet.previousOwner = ADDRESS_ZERO;
 	pet.baseId = getBaseId(tokenId);
 
 	// GET METADATA

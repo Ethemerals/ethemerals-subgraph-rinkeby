@@ -1,10 +1,10 @@
 import { Address, BigInt, BigDecimal, log, ethereum } from '@graphprotocol/graph-ts';
-import { ADDRESS_ZERO, ZERO_BI, ZERO_BD, ONE_BI, TEN_BI, INI_SCORE, CORE_ADDRESS, coreContract } from '../utils/constants';
+import { ADDRESS_ZERO, ZERO_BI, ZERO_BD, ONE_BI, TEN_BI, INI_SCORE } from '../utils/constants';
 import { EthemeralEquipables, AllowDelegatesChange, Approval, ApprovalForAll, DelegateChange, OwnershipTransferred, Transfer } from '../../generated/EthemeralEquipables/EthemeralEquipables';
 import { ensurePet, ensurePetMetadata, ensurePetAction } from '../utils/ensuresEquipables';
 
-import { ensureAccount, ensureAccountAction } from '../utils/ensuresCore';
-import { ensureEthemeral, ensureEthemeralAction } from '../utils/ensuresMerals';
+import { ensureAccount, ensureAccountAction } from '../utils/ensuresAccount';
+import { ensureMeral, ensureMeralAction } from '../utils/ensuresMerals';
 import { addressId, transactionId } from '../utils/helpers';
 
 export function handleAllowDelegatesChange(event: AllowDelegatesChange): void {}
@@ -53,9 +53,9 @@ export function handleTransfer(event: Transfer): void {
 		metadata.editionCount = metadata.editionCount.plus(ONE_BI);
 		token.edition = metadata.editionCount;
 		metadata.save();
-		let meral = ensureEthemeral(event, event.params.tokenId);
+		let meral = ensureMeral(event, event.params.tokenId);
 		meral.petRedeemed = true;
-		let meralAction = ensureEthemeralAction(event, meral.id);
+		let meralAction = ensureMeralAction(event, meral.id);
 		meralAction.type = 'RedeemPet';
 		meral.save();
 		meralAction.save();
