@@ -7,7 +7,7 @@ import { getMintPrice, getMaxAvailableIndex, getEthemeralSupply } from './contra
 import { ensureTransaction } from './ensuresCommon';
 import { transactionId } from './helpers';
 
-export function ensureCore(event: ethereum.Event): Core {
+export function ensureCore(): Core {
 	let core = Core.load(CORE_ADDRESS);
 	if (core) {
 		return core;
@@ -17,6 +17,10 @@ export function ensureCore(event: ethereum.Event): Core {
 	core.mintPrice = getMintPrice();
 	core.maxAvailableIndex = getMaxAvailableIndex();
 	core.ethemeralSupply = getEthemeralSupply();
+
+	core.burnCount = ONE_BI;
+	core.burnMaxId = ONE_BI;
+	core.burnLimit = ONE_BI;
 
 	core.save();
 

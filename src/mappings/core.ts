@@ -114,6 +114,14 @@ export function handleMint(event: Mint): void {
 	let scorecard = ensureScorecard(token.id);
 	let tokenAction = ensureMeralAction(event, token.id);
 
+	if (metadata) {
+		let meralArray = metadata.merals;
+		if (meralArray) {
+			meralArray.push(token.id);
+			metadata.merals = meralArray;
+		}
+	}
+
 	let atkBonus = getBonusAtk(event.params.id);
 	let defBonus = getBonusDef(event.params.id);
 	let spdBonus = getBonusSpd(event.params.id);
@@ -207,7 +215,7 @@ export function handleMint(event: Mint): void {
 	metadata.save();
 	scorecard.save();
 
-	let core = ensureCore(event);
+	let core = ensureCore();
 	// try save supply
 	core.maxAvailableIndex = getMaxAvailableIndex();
 	core.ethemeralSupply = getEthemeralSupply();

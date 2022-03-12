@@ -51,6 +51,8 @@ export function ensureMeral(event: ethereum.Event, tokenId: BigInt): Meral {
 	meral.scorecard = ensureScorecard(meral.id).id;
 	meral.metadata = ensureMetadata(meral.cmId).id;
 
+	meral.burnt = false;
+
 	meral.save();
 
 	return meral;
@@ -87,6 +89,7 @@ export function ensureMetadata(cmId: BigInt): Metadata {
 	}
 
 	meta = new Metadata(cmId.toString());
+	meta.merals = [];
 	meta.editionCount = ZERO_BI;
 	meta.save();
 

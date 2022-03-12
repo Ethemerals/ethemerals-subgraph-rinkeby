@@ -6,6 +6,9 @@ type Core @entity {
 	mintPrice: BigInt!
 	maxAvailableIndex: BigInt
 	ethemeralSupply: BigInt
+	burnCount: BigInt!
+	burnLimit: BigInt!
+	burnMaxId: BigInt!
 }
 
 type Delegate @entity {
@@ -61,11 +64,13 @@ type Meral @entity {
 	scorecard: Scorecard!
 	metadata: Metadata!
 	actions: [MeralAction!] @derivedFrom(field: "meral")
+	#
+	burnt: Boolean!
 }
 
 type Metadata @entity {
 	id: ID!
-	merals: [Meral!] @derivedFrom(field: "metadata")
+	merals: [String!]
 	editionCount: BigInt!
 }
 

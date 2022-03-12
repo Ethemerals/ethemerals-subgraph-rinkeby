@@ -6,6 +6,7 @@ import {
   Value,
   ValueKind,
   store,
+  Address,
   Bytes,
   BigInt,
   BigDecimal
@@ -17,6 +18,9 @@ export class Core extends Entity {
     this.set("id", Value.fromString(id));
 
     this.set("mintPrice", Value.fromBigInt(BigInt.zero()));
+    this.set("burnCount", Value.fromBigInt(BigInt.zero()));
+    this.set("burnLimit", Value.fromBigInt(BigInt.zero()));
+    this.set("burnMaxId", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -86,6 +90,33 @@ export class Core extends Entity {
     } else {
       this.set("ethemeralSupply", Value.fromBigInt(<BigInt>value));
     }
+  }
+
+  get burnCount(): BigInt {
+    let value = this.get("burnCount");
+    return value!.toBigInt();
+  }
+
+  set burnCount(value: BigInt) {
+    this.set("burnCount", Value.fromBigInt(value));
+  }
+
+  get burnLimit(): BigInt {
+    let value = this.get("burnLimit");
+    return value!.toBigInt();
+  }
+
+  set burnLimit(value: BigInt) {
+    this.set("burnLimit", Value.fromBigInt(value));
+  }
+
+  get burnMaxId(): BigInt {
+    let value = this.get("burnMaxId");
+    return value!.toBigInt();
+  }
+
+  set burnMaxId(value: BigInt) {
+    this.set("burnMaxId", Value.fromBigInt(value));
   }
 }
 
@@ -273,6 +304,7 @@ export class Meral extends Entity {
     this.set("costume", Value.fromString(""));
     this.set("scorecard", Value.fromString(""));
     this.set("metadata", Value.fromString(""));
+    this.set("burnt", Value.fromBoolean(false));
   }
 
   save(): void {
@@ -595,6 +627,15 @@ export class Meral extends Entity {
     } else {
       this.set("actions", Value.fromStringArray(<Array<string>>value));
     }
+  }
+
+  get burnt(): boolean {
+    let value = this.get("burnt");
+    return value!.toBoolean();
+  }
+
+  set burnt(value: boolean) {
+    this.set("burnt", Value.fromBoolean(value));
   }
 }
 
@@ -985,6 +1026,9 @@ export class MeralAction extends Entity {
     this.set("id", Value.fromString(id));
 
     this.set("meral", Value.fromString(""));
+    this.set("win", Value.fromBoolean(false));
+    this.set("staked", Value.fromBoolean(false));
+    this.set("long", Value.fromBoolean(false));
     this.set("timestamp", Value.fromBigInt(BigInt.zero()));
     this.set("transaction", Value.fromString(""));
     this.set("type", Value.fromString(""));
