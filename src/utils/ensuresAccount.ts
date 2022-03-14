@@ -18,9 +18,9 @@ export function ensureCore(): Core {
 	core.maxAvailableIndex = getMaxAvailableIndex();
 	core.ethemeralSupply = getEthemeralSupply();
 
-	core.burnCount = ONE_BI;
-	core.burnMaxId = ONE_BI;
-	core.burnLimit = ONE_BI;
+	core.burnCount = ZERO_BI;
+	core.burnMaxId = ZERO_BI;
+	core.burnLimit = ZERO_BI;
 
 	core.save();
 
