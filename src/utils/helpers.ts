@@ -8,7 +8,7 @@ export function addressId(address: Address): string {
 	return address.toHexString();
 }
 
-const typeMult = BigInt.fromI32(100000);
+const typeMult = BigInt.fromI32(1000000);
 
 // export const getTypeFromId = (id) => {
 // 	return parseInt(parseInt(id) / typeMult);
