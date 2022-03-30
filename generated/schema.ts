@@ -275,6 +275,7 @@ export class Meral extends Entity {
 
     this.set("tokenId", Value.fromBigInt(BigInt.zero()));
     this.set("meralId", Value.fromBigInt(BigInt.zero()));
+    this.set("type", Value.fromBigInt(BigInt.zero()));
     this.set("timestamp", Value.fromBigInt(BigInt.zero()));
     this.set("blockNumber", Value.fromBigInt(BigInt.zero()));
     this.set("creator", Value.fromString(""));
@@ -305,6 +306,8 @@ export class Meral extends Entity {
     this.set("scorecard", Value.fromString(""));
     this.set("metadata", Value.fromString(""));
     this.set("burnt", Value.fromBoolean(false));
+    this.set("status", Value.fromBigInt(BigInt.zero()));
+    this.set("proxy", Value.fromBoolean(false));
   }
 
   save(): void {
@@ -349,6 +352,15 @@ export class Meral extends Entity {
 
   set meralId(value: BigInt) {
     this.set("meralId", Value.fromBigInt(value));
+  }
+
+  get type(): BigInt {
+    let value = this.get("type");
+    return value!.toBigInt();
+  }
+
+  set type(value: BigInt) {
+    this.set("type", Value.fromBigInt(value));
   }
 
   get timestamp(): BigInt {
@@ -636,6 +648,24 @@ export class Meral extends Entity {
 
   set burnt(value: boolean) {
     this.set("burnt", Value.fromBoolean(value));
+  }
+
+  get status(): BigInt {
+    let value = this.get("status");
+    return value!.toBigInt();
+  }
+
+  set status(value: BigInt) {
+    this.set("status", Value.fromBigInt(value));
+  }
+
+  get proxy(): boolean {
+    let value = this.get("proxy");
+    return value!.toBoolean();
+  }
+
+  set proxy(value: boolean) {
+    this.set("proxy", Value.fromBoolean(value));
   }
 }
 
