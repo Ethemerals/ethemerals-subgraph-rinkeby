@@ -15,4 +15,6 @@ export let ONE_BD = BigDecimal.fromString('1');
 export let BI_18 = BigInt.fromI32(18);
 
 export let CORE_ADDRESS = '0xcdb47e685819638668ff736d1a2ae32b68e76ba5';
+export let ETERNALBATTLE_ADDRESS = '0x883170aaceb39a23642f5aaaab083f5684d3ffb1';
+export let BURN_ADDRESS = '0x3b3d085078e3daead342a89bb2a3c2b45bc18828';
 export let coreContract = Ethemerals.bind(Address.fromString(CORE_ADDRESS));

@@ -1203,6 +1203,23 @@ export class MeralAction extends Entity {
   set type(value: string) {
     this.set("type", Value.fromString(value));
   }
+
+  get description(): string | null {
+    let value = this.get("description");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set description(value: string | null) {
+    if (!value) {
+      this.unset("description");
+    } else {
+      this.set("description", Value.fromString(<string>value));
+    }
+  }
 }
 
 export class AccountAction extends Entity {
@@ -1310,6 +1327,23 @@ export class AccountAction extends Entity {
 
   set type(value: string) {
     this.set("type", Value.fromString(value));
+  }
+
+  get description(): string | null {
+    let value = this.get("description");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set description(value: string | null) {
+    if (!value) {
+      this.unset("description");
+    } else {
+      this.set("description", Value.fromString(<string>value));
+    }
   }
 }
 
@@ -1626,6 +1660,23 @@ export class PetAction extends Entity {
 
   set type(value: string) {
     this.set("type", Value.fromString(value));
+  }
+
+  get description(): string | null {
+    let value = this.get("description");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set description(value: string | null) {
+    if (!value) {
+      this.unset("description");
+    } else {
+      this.set("description", Value.fromString(<string>value));
+    }
   }
 }
 
